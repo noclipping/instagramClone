@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom"
 import FirebaseContext from "../context/firebase";
+import * as ROUTES from '../constants/routes'
 export default function Login(){
     const history = useHistory();
     const { firebase } = useContext(FirebaseContext);
@@ -8,7 +9,19 @@ export default function Login(){
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
     const isInvalid = password === '' || emailAddress === '';
-    const handleLogin = () =>{}
+
+    const handleLogin = async (e) =>{
+        e.preventDefault();
+        try {
+            await firebase.auth().signInWithEmailAndPassword(emailAddress, password)
+            history.push(ROUTES.DASHBOARD);
+        } catch (error) {
+            setEmailAddress('');
+            setPassword('');
+            setError(error.message)
+        }
+    }
+
     useEffect(()=>{
         document.title='Login - Instagram'
     }, [])
@@ -31,13 +44,15 @@ export default function Login(){
                         type="text"
                         placeholder="Email address"
                         className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
-                        onChange={({target})=>setEmailAddress(target.value)} />
+                        onChange={({target})=>setEmailAddress(target.value)} 
+                        value={emailAddress}/>
                        
                         <input aria-label="Enter your password"
                         type="password"
                         placeholder="Password"
                         className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
-                        onChange={({target})=>setPassword(target.value)} />
+                        onChange={({target})=>setPassword(target.value)} 
+                        value={password} />
                       
                         <button 
                             disabled={isInvalid}
@@ -52,7 +67,7 @@ export default function Login(){
            
             <div className='flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary'>
                     <p className='text-sm'> Don't have an account?{` `}
-                        <Link to ="/signup" className="font-bold text-blue-medium">
+                        <Link to ={ROUTES.SIGN_UP} className="font-bold text-blue-medium">
                             Signup
                         </Link>
                      </p>
