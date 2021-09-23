@@ -8,6 +8,20 @@ export async function doesUsernameExist(username){
     
     return result.docs.map((user)=>user.data().length>0)
 }
+
+export async function getUserByUsername(username){
+    const result = await firebase
+    .firestore()
+    .collection('users')
+    .where('username', '==', username)
+    .get();
+    
+    return result.docs.map((item)=>({
+        ...item.data(),
+        docId: item.id
+    }))
+
+}
 // userId in param is passed from auth
 export async function getUserByUserId(userId){
     const result = await firebase.firestore()
@@ -85,4 +99,26 @@ export async function getPhotos(userId, following){
     )
     console.log(`photosWithUserDetails`, photosWithUserDetails)
     return photosWithUserDetails;
+}
+
+// export async function getUserIdByUsername(username){
+//     const result = await firebase
+//     .firestore()
+//     .collection('users')
+//     .where('username','==','')
+// }
+
+export async function getUserPhotosByUsername(username){
+    const [user] = await getUserByUsername(username);
+    const result = await firebase
+        .firestore()
+        .collection('photos')
+        .where('userId', '==', user.userId)
+        .get();
+
+        return result.docs.map((item)=>({
+            ...item.data(),
+            docId: item.id
+        }));
+        
 }
