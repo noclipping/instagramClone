@@ -135,4 +135,5 @@ export async function isUserFollowingProfile(loggedInUserUsername, profileUserId
         docId: item.id
     }))
 
+    return response.userId
 }
