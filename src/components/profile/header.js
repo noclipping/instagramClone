@@ -37,7 +37,7 @@ export default function Header({ photosCount,
             {user.username ?(
                 <img
                 className="rounded-full h-40 w-40 flex"
-                alt={`${profileUsername} picture`}
+                alt={`${profileUsername}`}
                 src={`/images/avatars/${profileUsername}.jpg`}/>):<Skeleton count={1} height={160} width={160}></Skeleton>}
         </div>
         <div className = "flex items-center justify-center flex-col col-span-2">

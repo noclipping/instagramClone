@@ -40,12 +40,14 @@ export async function getSuggestedProfiles(userId, following){
     return result.docs.map((user)=> ({...user.data(), docId: user.id}))
     .filter((profile)=> profile.userId !== userId && !following.includes(profile.userId))
 }
-export async function followUser(userId, targetId){
-    const result = await firebase.forestore()
-    .collection('users')
-    .where('userId', '==', userId);
+// export async function followUser(userId, targetId){
+//     const result = await firebase.forestore()
+//     .collection('users')
+//     .where('userId', '==', userId);
 
-}
+// }
+// maybe uncomment above if any errors. believe it's okay.
+
 
 //updateLoggedInUserFollowing, updateFollowedUserFollowers
 
@@ -81,7 +83,7 @@ export async function getPhotos(userId, following){
         .where('userId', 'in', following)
         .get();
     const userFollowedPhotos = result.docs.map((photo)=>({
-        ... photo.data(),
+        ...photo.data(),
         docId: photo.id
     }))
 
@@ -97,16 +99,10 @@ export async function getPhotos(userId, following){
             return { username, ...photo, userLikedPhoto };
         })
     )
-    console.log(`photosWithUserDetails`, photosWithUserDetails)
     return photosWithUserDetails;
 }
 
-// export async function getUserIdByUsername(username){
-//     const result = await firebase
-//     .firestore()
-//     .collection('users')
-//     .where('username','==','')
-// }
+
 
 export async function getUserPhotosByUsername(username){
     const [user] = await getUserByUsername(username);
