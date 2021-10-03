@@ -38,7 +38,8 @@ export default function SignUp(){
                         username: username.toLowerCase(),
                         fullName,
                         emailAddress: emailAddress.toLowerCase(),
-                        following: [],
+                        following: ['2'],
+                        followers: [],
                         dateCreated: Date.now()
                     })
                     history.push(ROUTES.DASHBOARD)
@@ -49,13 +50,9 @@ export default function SignUp(){
                 setError(error.message);
             }
         } else{
+            setUsername('');
             setError('That username is already taken, try another.')
         }
-        // try {
-
-        // } catch (error) {
-
-        // }
     }
 
     useEffect(()=>{

@@ -3,10 +3,12 @@ import {Link} from 'react-router-dom';
 import FirebaseContext from "../context/firebase"
 import UserContext from "../context/user"
 import * as ROUTES from '../constants/routes'
-export default function Header(){
-    const {firebase} = useContext(FirebaseContext)
-    const {user} = useContext(UserContext)
+import useUser from "../hooks/use-user";
 
+export default function Header(){
+    const {user:loggedInUser} = useContext(UserContext)
+    const{ user } = useUser(loggedInUser?.uid)
+    const {firebase} = useContext(FirebaseContext)
 
     return <header className="h-16 bg-white border-b border-gray-primary mb-8">
         <div className="container mx-auto max-w-screen-lg h-full">
@@ -20,7 +22,7 @@ export default function Header(){
                 </div>
                 <div className="text-gray-700 text-center flex items-center align-items">
                     {
-                        user?(
+                        user.username?(
                             <>
                             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-8 mr-6 text-black-light cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -42,12 +44,12 @@ export default function Header(){
                                 </svg>
                             </button>
                             <div className="flex items-center cursor-pointer">
-                                <Link to ={`/p/${user.displayName}`}>
+                                <Link to ={`/p/${user?.username}`}>
                                     <img className="rounded-full h-8 w-8 full"
-                                    src={`/images/avatars/${user.displayName}.jpg`}
-                                    alt={`${user.displayName} profile`}>
+                                    src={`/images/avatars/${user.username}.jpg`}
+                                    alt={`${user?.username} profile`}>
                                     </img>
-                                    </Link>
+                                </Link>
                             </div>
                             </>
                         ) : (
