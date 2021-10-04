@@ -1,5 +1,5 @@
 import {useState, useEffect,} from "react";
-import { getPhotos,  } from "../services/firebase";
+import { getPhotos } from "../services/firebase";
 
 
 export default function usePhotos(user){

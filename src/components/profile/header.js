@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import useUser from "../../hooks/use-user";
 import { isUserFollowingProfile, toggleFollow } from '../../services/firebase'
 import UserContext from "../../context/user";
+import Popup from "./popup";
 
 export default function Header({ photosCount, 
                                 followerCount, 
@@ -17,6 +18,9 @@ export default function Header({ photosCount,
     const { user } = useUser(loggedInUser?.uid);
     const [ isFollowingProfile, setIsFollowingProfile ] = useState(false)
     const activeBtnFollow = user?.username && user?.username !== profileUsername;
+
+    console.log(`user`, user)
+    console.log(`profile`, profileUserId)
 
     const handleToggleFollow = async () => {
         setIsFollowingProfile((isFollowingProfile) => !isFollowingProfile)
@@ -60,6 +64,7 @@ export default function Header({ photosCount,
                     >
                     {isFollowingProfile?'Unfollow':'Follow'}</button> 
                 ) }
+                {user.userId === profileUserId?(<Popup/>):null}
             </div>
             <div className='container flex mt-4'>
                 {!followers || !following?(
