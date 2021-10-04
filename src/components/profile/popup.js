@@ -60,7 +60,7 @@ export default function Popup(){
                   type="button"
                   onClick={() => togglePopup()}
                 >
-                  Submits
+                  Submit
                 </button>
               </div>
             </div>
