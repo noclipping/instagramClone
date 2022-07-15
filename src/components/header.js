@@ -16,7 +16,11 @@ export default function Header() {
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
-            <h1 className="flex justify-center w-full"></h1>
+            <h1 className="flex justify-center w-full">
+              <Link to={ROUTES.DASHBOARD} aria-label="instaclone logo">
+                <h2 className="mt-2 mb-2 w-6/12 text-3xl italic">Instaclone</h2>
+              </Link>
+            </h1>
           </div>
           <div className="text-gray-700 text-center flex items-center align-items">
             {user.username ? (
