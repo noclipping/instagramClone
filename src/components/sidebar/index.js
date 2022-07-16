@@ -8,7 +8,7 @@ export default function Sidebar() {
     useContext(LoggedInUserContext);
 
   return (
-    <div className="p-4 sm:hidden">
+    <div className="p-4">
       <User username={username} fullName={fullName} />
       <Suggestions
         userId={userId}

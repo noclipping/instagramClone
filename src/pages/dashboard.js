@@ -19,7 +19,9 @@ export default function Dashboard({ user: loggedInUser }) {
         <Header />
         <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
           <Timeline />
-          <Sidebar />
+          <div className="invisible lg:visible">
+            <Sidebar />
+          </div>
         </div>
       </div>
     </LoggedInUserContext.Provider>
