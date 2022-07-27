@@ -1,15 +1,20 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import UserContext from "../context/user";
 import * as ROUTES from "../constants/routes";
 import useUser from "../hooks/use-user";
-
+import findPhoto from "../funcs/findPhoto";
+import { useState } from "react";
 export default function Header() {
+  const [profPic, setProfPic] = useState("");
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser?.uid);
   const { firebase } = useContext(FirebaseContext);
   const history = useHistory();
+  useEffect(() => {
+    setProfPic(findPhoto(user?.username));
+  }, [user]);
   console.log(`/images/avatars/${user.username}.jpg`, "thepic");
   return (
     <header className="h-16 bg-white border-b border-gray-primary mb-8">
@@ -74,7 +79,7 @@ export default function Header() {
                   <Link to={`/p/${user?.username}`}>
                     <img
                       className="rounded-full h-8 w-8 full"
-                      src={`/images/avatars/${user.username}.jpg`}
+                      src={profPic}
                       alt={`${user?.username} profile`}
                     ></img>
                   </Link>
