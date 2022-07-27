@@ -5,6 +5,7 @@ import useUser from "../../hooks/use-user";
 import { isUserFollowingProfile, toggleFollow } from "../../services/firebase";
 import UserContext from "../../context/user";
 import Popup from "./popup";
+import findPhoto from "../../funcs/findPhoto";
 
 export default function Header({
   photosCount,
@@ -19,6 +20,7 @@ export default function Header({
     username: profileUsername,
   },
 }) {
+  const [profPic, setProfPic] = useState("");
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser?.uid);
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
@@ -41,6 +43,7 @@ export default function Header({
     );
   };
   useEffect(() => {
+    setProfPic(findPhoto(profileUsername));
     const isLoggedInUserFollowingProfile = async () => {
       const isFollowing = await isUserFollowingProfile(
         user.username,
@@ -60,7 +63,7 @@ export default function Header({
           <img
             className="rounded-full h-40 w-40 flex"
             alt={`${profileUsername}`}
-            src={`/images/avatars/${profileUsername}.jpg`}
+            src={profPic}
           />
         ) : (
           <Skeleton count={1} height={160} width={160}></Skeleton>
